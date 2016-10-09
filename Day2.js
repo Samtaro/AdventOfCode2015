@@ -998,26 +998,58 @@ var giftDimen = `3x11x24
 3x12x15
 24x25x17
 14x6x11`;
+
 var dimenArray = giftDimen.split("\n").map(function(box){
     return box.split("x");
-}).map(function(dimen){
-    var l = dimen[0];
-    var w = dimen[1];
-    var h = dimen[2];
-    var sqFeet = (2*l*w)+(2*w*h)+(2*h*l);
-    if(l*w < l*h && l*w <w*h){
-        sqFeet+= (l*w);
-    }
-    else if(l*h < w*h){
-        sqFeet+= (l*h);
-    }
-    else{sqFeet += (w*h)}
-    return sqFeet
-}).reduce(function(total, item){
-    return total+=item;
-},0);
+})
 
+//How much wrapping paper?
+function getWrapPaper(dimensions) {
+    return dimensions.map(function(dimen) {
+        var l = dimen[0];
+        var w = dimen[1];
+        var h = dimen[2];
+        var sqFeet = (2 * l * w) + (2 * w * h) + (2 * h * l);
+        if (l * w < l * h && l * w < w * h) {
+            sqFeet += (l * w);
+        }
+        else if (l * h < w * h) {
+            sqFeet += (l * h);
+        }
+        else {
+            sqFeet += (w * h)
+        }
+        return sqFeet;
+    }).reduce(function(total, item) {
+        return total += item;
+    }, 0);
+}
 
+//How much ribbon?
+function getRibbon(dimensions){
+    return dimensions.map(function(dimen){
+        var l = dimen[0];
+        var w = dimen[1];
+        var h = dimen[2];
+        var lenRib = l*w*h;
+        if (l * w < l * h && l * w < w * h) {
+            lenRib += (2*l + 2*w);
+        }
+        else if (l * h < w * h) {
+            lenRib += (2*l + 2*h);
+        }
+        else {
+            lenRib += (2*w + 2*h)
+        }
+        return lenRib;
+    }).reduce(function(total, item) {
+        return total += item;
+    }, 0);
+    
+    
+    
+    
+}
 
 
 
@@ -1025,7 +1057,6 @@ var result = dimenArray
 
 
 
-console.log(dimenArray);
-
+console.log(getRibbon(dimenArray));
 
 
